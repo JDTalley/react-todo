@@ -24,7 +24,28 @@ class Todos extends React.Component {
                 }
             ]
         }
+
         this.handleChange = this.handleChange.bind(this)
+
+        this.divStyle = {
+            margin: '0 auto',
+            display: 'flex',
+            flexDirection: 'column',
+            minWidth: '500px',
+            maxWidth: '750px',
+            textAlign: 'center',
+            background: '#f7f7f7'
+        }
+
+        this.h1Style = {
+            backgroundColor: '#2980b9',
+	        color: 'white',
+	        margin: '0',
+	        padding: '10px 20px',
+	        textTransform: 'uppercase',
+	        fontSize: '24px',
+	        fontWeight: 'normal',
+        }
     }
 
     handleChange(id) {
@@ -53,8 +74,8 @@ class Todos extends React.Component {
             />)
 
         return (
-            <div>
-                <h1>Todos</h1>
+            <div style={this.divStyle}>
+                <h1 style={this.h1Style}>Todos</h1>
                 {todoItems}
             </div>
         )
