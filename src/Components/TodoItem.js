@@ -7,14 +7,11 @@ function TodoItem(props) {
     }
 
     return (
-        <div>
-            <input 
-                type="checkbox"
-                checked={props.item.completed}
-                onChange={() => props.handleChange(props.item.id)}
-            />
-            <p style={props.item.completed ? completedStyle: null}>{props.item.text}</p>
-        </div>
+        <li 
+            style={props.item.completed ? completedStyle: null}
+            onClick={() => props.handleClick(props.item.id)}>
+            {props.item.text}
+        </li>
     )
 }
 

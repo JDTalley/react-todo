@@ -25,7 +25,7 @@ class Todos extends React.Component {
             ]
         }
 
-        this.handleChange = this.handleChange.bind(this)
+        this.handleClick = this.handleClick.bind(this)
 
         this.divStyle = {
             margin: '0 auto',
@@ -35,6 +35,7 @@ class Todos extends React.Component {
             maxWidth: '750px',
             textAlign: 'center',
             background: '#f7f7f7'
+            
         }
 
         this.h1Style = {
@@ -46,9 +47,15 @@ class Todos extends React.Component {
 	        fontSize: '24px',
 	        fontWeight: 'normal',
         }
+
+        this.ulStyle = {
+            listStyleType: 'none',
+            margin: '0',
+            padding: '0'
+        }
     }
 
-    handleChange(id) {
+    handleClick(id) {
         this.setState(prevState => {
             const updatedTodos = prevState.todos.map(todo => {
                 if (todo.id === id) {
@@ -68,15 +75,18 @@ class Todos extends React.Component {
     render() {
         const todoItems = this.state.todos.map(item => 
             <TodoItem 
-                key={item.id} 
-                item={item}
-                handleChange={this.handleChange}
-            />)
-
+            key={item.id} 
+            item={item}
+            handleClick={this.handleClick}
+            />
+        )
         return (
             <div style={this.divStyle}>
-                <h1 style={this.h1Style}>Todos</h1>
-                {todoItems}
+                <h1 style={this.h1Style}>React Todos</h1>
+                <input type="text" name="newTodo" placeholder="Add New Todo"></input>
+                <ul style={this.ulStyle}>
+                    {todoItems}
+                </ul>
             </div>
         )
     }
