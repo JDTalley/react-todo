@@ -1,95 +1,92 @@
-import React from 'react'
+import React from "react";
+import styled from "styled-components";
+import TodoItem from "./TodoItem";
+import TodoInput from "./TodoInput";
 
-import TodoItem from './TodoItem'
+const Wrapper = styled.div`
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  min-width: 500px;
+  max-width: 750px;
+  max-height: 75vh;
+  overflow: scroll;
+  text-align: center;
+  background: ${({ theme }) => theme.colors.grayscale.contrast};
+  box-shadow: 2px 2px 4px ${({ theme }) => theme.colors.primary.dark};
+`;
 
-class Todos extends React.Component {
-    constructor() {
-        super()
-        this.state = {
-            todos: [
-                {
-                    id: 1,
-                    text: 'Todo 1',
-                    completed: true
-                },
-                {
-                    id: 2,
-                    text: 'Todo 2',
-                    completed: false
-                },
-                {
-                    id: 3,
-                    text: 'Todo 3',
-                    completed: false
-                }
-            ]
-        }
+const Title = styled.h1`
+  background-color: ${({ theme }) => theme.colors.primary.contrast};
+  color: ${({ theme }) => theme.colors.grayscale.contrast};
+  margin: 0;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  font-size: 24px;
+  font-weight: normal;
+`;
 
-        this.handleClick = this.handleClick.bind(this)
+const List = styled.ul`
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+`;
 
-        this.divStyle = {
-            margin: '0 auto',
-            display: 'flex',
-            flexDirection: 'column',
-            minWidth: '500px',
-            maxWidth: '750px',
-            textAlign: 'center',
-            background: '#f7f7f7'
-            
-        }
+function Todos() {
+  const [todos, setTodos] = React.useState([
+    {
+      id: crypto.randomUUID(),
+      text: "Todo 1",
+      completed: true,
+    },
+    {
+      id: crypto.randomUUID(),
+      text: "Todo 2",
+      completed: false,
+    },
+    {
+      id: crypto.randomUUID(),
+      text: "Todo 3",
+      completed: false,
+    },
+  ]);
 
-        this.h1Style = {
-            backgroundColor: '#2980b9',
-	        color: 'white',
-	        margin: '0',
-	        padding: '10px 20px',
-	        textTransform: 'uppercase',
-	        fontSize: '24px',
-	        fontWeight: 'normal',
-        }
+  const handleTodoClick = (e) => {
+    const updatedTodoId = e.target.id;
+    const updatedTodos = todos.map((todo) => {
+      if (todo.id === updatedTodoId) {
+        return {
+          ...todo,
+          completed: !todo.completed,
+        };
+      }
+      return todo;
+    });
+    setTodos(updatedTodos);
+  };
 
-        this.ulStyle = {
-            listStyleType: 'none',
-            margin: '0',
-            padding: '0'
-        }
-    }
+  const handleNewTodo = (todo) => {
+    setTodos([
+      ...todos,
+      {
+        id: crypto.randomUUID(),
+        text: todo,
+        completed: false,
+      },
+    ]);
+  };
 
-    handleClick(id) {
-        this.setState(prevState => {
-            const updatedTodos = prevState.todos.map(todo => {
-                if (todo.id === id) {
-                    return {
-                        ...todo,
-                        completed: !todo.completed
-                    }
-                }
-                return todo
-            })
-            return {
-                todos: updatedTodos
-            }
-        })
-    }
+  const todoItems = todos.map((item) => (
+    <TodoItem key={item.id} item={item} handleClick={handleTodoClick} />
+  ));
 
-    render() {
-        const todoItems = this.state.todos.map(item => 
-            <TodoItem 
-            key={item.id} 
-            item={item}
-            handleClick={this.handleClick}
-            />
-        )
-        return (
-            <div style={this.divStyle}>
-                <h1 style={this.h1Style}>React Todos</h1>
-                <input type="text" name="newTodo" placeholder="Add New Todo"></input>
-                <ul style={this.ulStyle}>
-                    {todoItems}
-                </ul>
-            </div>
-        )
-    }
+  return (
+    <Wrapper>
+      <Title>React Todos</Title>
+      <TodoInput handleNewTodo={handleNewTodo}></TodoInput>
+      <List>{todoItems}</List>
+    </Wrapper>
+  );
 }
 
-export default Todos
+export default Todos;
