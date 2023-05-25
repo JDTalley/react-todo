@@ -4,35 +4,31 @@ import TodoItem from "./TodoItem";
 import TodoInput from "./TodoInput";
 
 const Wrapper = styled.div`
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  min-width: 500px;
-  max-width: 750px;
-  max-height: 75vh;
-  overflow: scroll;
+  justify-content: space-between;
+  margin: 0 auto;
+  width: 100%;
   text-align: center;
-  background: ${({ theme }) => theme.colors.grayscale.contrast};
-  box-shadow: 2px 2px 4px ${({ theme }) => theme.colors.primary.dark};
-`;
+  background: ${({ theme }) => theme.colors.secondary};
+  box-shadow: 1px 1px 3px ${({ theme }) => theme.colors.neutral};
+  border-radius: 5px;
 
-const Title = styled.h1`
-  background-color: ${({ theme }) => theme.colors.primary.contrast};
-  color: ${({ theme }) => theme.colors.grayscale.contrast};
-  margin: 0;
-  padding: 10px 20px;
-  text-transform: uppercase;
-  font-size: 24px;
-  font-weight: normal;
+  @media (min-width: 700px) {
+    min-width: 500px;
+    max-width: 700px;
+    height: 50vh;
+  }
 `;
 
 const List = styled.ul`
   list-style-type: none;
+  overflow: scroll;
   margin: 0;
   padding: 0;
 `;
 
-function Todos() {
+function TodoList() {
   const [todos, setTodos] = React.useState([
     {
       id: crypto.randomUUID(),
@@ -66,6 +62,7 @@ function Todos() {
   };
 
   const handleNewTodo = (todo) => {
+    if (todo === "") return;
     setTodos([
       ...todos,
       {
@@ -82,11 +79,10 @@ function Todos() {
 
   return (
     <Wrapper>
-      <Title>React Todos</Title>
-      <TodoInput handleNewTodo={handleNewTodo}></TodoInput>
       <List>{todoItems}</List>
+      <TodoInput handleNewTodo={handleNewTodo}></TodoInput>
     </Wrapper>
   );
 }
 
-export default Todos;
+export default TodoList;
